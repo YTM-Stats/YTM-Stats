@@ -25,7 +25,7 @@ app.post('/', upload.single("file"), async (req, res) => {
 
         const parsedContent = {};
         parsedContent['mediaPlays'] = content
-            .filter(vid => vid.header === "YouTube Music")
+            .filter(vid => vid.header === "YouTube Music" && vid.subtitles)
             .map(song => {
                 const songId = song.titleUrl.slice(mediaUrlBase.length);
                 const artistIdName = song.subtitles.map(artist => ({id: artist.url.slice(artistUrlBase.length), name: artist.name}));
