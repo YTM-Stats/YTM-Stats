@@ -21,18 +21,20 @@ app.post('/', upload.single("file"), async (req, res) => {
 
         const mediaCount = {};
         const artistCount = {};
+        const artistIdToTitle = {};
 
         const parsedContent = {};
         parsedContent['mediaPlays'] = content
             .filter(vid => vid.header === "YouTube Music")
             .map(song => {
                 const songId = song.titleUrl.slice(mediaUrlBase.length);
-                const artistIds = song.subtitles.map(artist => artist.url.slice(artistUrlBase.length));
+                const artistIdName = song.subtitles.map(artist => ({id: artist.url.slice(artistUrlBase.length), name: artist.name}));
 
                 incrementObjCount(songId, mediaCount);
 
-                artistIds.forEach(id => {
-                    incrementObjCount(id, artistCount);
+                artistIdName.forEach(artist => {
+                    incrementObjCount(artist.id, artistCount);
+                    artistIdToTitle[artist.id] = artist.name;
                 });
 
                 return {
@@ -54,14 +56,22 @@ app.post('/', upload.single("file"), async (req, res) => {
                     ...song,
                     plays: mediaCount[song.id]
                 }
-            })
+            });
+
+            let artistCountArr = [];
+            Object.keys(artistCount).map(key => {
+                artistCountArr.push({ id: key, plays: artistCount[key], title: artistIdToTitle[key] })
+            });
+
+            artistCountArr.sort((a, b) => b.plays - a.plays);
+
+            parsedContent['artistPlays'] = artistCountArr;
 
         res.status(200).json(parsedContent);
     } else {
         res.status(400).send("Must receive a file");
     }
 });
-
 
 app.listen(3001, () => console.log('Listening...'));
 
