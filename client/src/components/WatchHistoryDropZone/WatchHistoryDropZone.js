@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import Button from "../Button/Button.js";
 import { useDropzone } from "react-dropzone";
 
@@ -13,24 +13,24 @@ function fileNameValidator(file) {
 
 }
 
-export default function WatchHistoryDropZone({onDrop}) {
+export default function WatchHistoryDropZone({className, onDrop, onDropAccepted, onDropRejected, ...props}) {
 
   const {
     getRootProps,
     getInputProps,
     isDragActive,
     open,
-    // acceptedFiles,
-    // fileRejections,
   } = useDropzone({
-    onDrop,
+      onDrop,
+      onDropAccepted,
+      onDropRejected,
     noClick: true,
     accept: ".json, application/json",
       validator: fileNameValidator
   });
 
   return (
-    <label {...getRootProps()} className={`block bg-gray-200 p-4 rounded-2xl`}>
+    <label {...getRootProps()} className={`${className} block bg-gray-200 p-4 rounded-2xl w-full`}>
       <div
         className={` px-8 py-20 bg-gray-200 border-4 rounded-2xl
       text-lg font-bold text-gray-500
