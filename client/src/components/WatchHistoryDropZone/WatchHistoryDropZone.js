@@ -41,10 +41,11 @@ export default function WatchHistoryDropZone({
       text-lg font-bold text-gray-500
       flex-col items-center flex gap-1 
             border-dashed ${
-              isDragActive ? "border-rose-500" : "border-gray-500"
+              isDragActive
+                ? "border-rose-500 bg-gradient-to-b from-gray-300 to-transparent"
+                : "border-gray-500"
             } transition-colors
-            hover:border-rose-500
-            `}
+            hover:border-rose-500`}
       >
         <input {...getInputProps()} />
         Upload your music history
@@ -54,7 +55,7 @@ export default function WatchHistoryDropZone({
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="w-6 h-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
