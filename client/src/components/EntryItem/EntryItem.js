@@ -2,9 +2,12 @@ function getInitialsFromArtist(artist) {
   return artist.split(" ").reduce((prev, curr) => prev + curr[0], "");
 }
 export default function EntryItem({ entry, entryNumber, ...props }) {
-  const { title, time: listenDate, subtitle, artists } = entry;
+  const { title, time: listenDate, artists } = entry;
   return (
-    <div className="flex items-stretch w-full bg-gray-200 rounded-2xl transition-colors hover:bg-gray-300">
+    <div
+      className="flex items-stretch w-full bg-gray-200 rounded-2xl transition-colors hover:bg-gray-300 overflow-hidden"
+      {...props}
+    >
       <div
         className={`bg-gray-400 w-[90px] relative flex items-center justify-center`}
       >
